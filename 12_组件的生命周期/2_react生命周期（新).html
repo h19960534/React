@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>使用JSX创建虚拟DOM</title>
+</head>
+<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+
+
+<body>
+
+
+  <div id="test1"></div>
+  <div id="test2"></div>
+  <div id="test3"></div>
+
+  <script type="text/babel">
+   class Count extends React.Component{
+    
+    constructor(props) {
+      console.log('Count-constructor')
+      super(props)
+      this.state ={count:0}
+    }
+     
+
+     add = () => {
+       const {count} = this.state
+       this.setState({count:count+1})
+     }
+
+    //
+    unmount = () => {
+      ReactDOM.unmountComponentAtNode(document.getElementById('test1'))
+    }
+
+    //
+    force = () => {
+      this.forceUpdate()
+    }
+
+    //
+    static getDerivedStateFromProps(){
+      console.log('getDerivedStateFromProps')
+      return null
+
+    }
+
+    //
+    getSnapshotBeforeUpdate() {
+      console.log('getSnapshoteBeforeUpdate')
+      return
+    }
+    //
+    componentWillMount(){
+      console.log('Count---componentWillMount')
+    }
+
+    //
+    shouldComponentUpdate (){
+      console.log('Count---shouldComponentUpdate')
+      return false
+    }
+    //
+    componentWillUpdate (){
+      console.log('Count---componentWillUpdate')
+    }
+    //
+    componentDidUpdate(){
+      console.log('Count---componentDidUpdate')
+    }
+
+    componentDidMount(){
+       console.log('Count---componentDidMount')
+     }
+
+     componentWillUnmount() {
+       console.log('Count---componentWillUnmount')
+     }
+    render() {
+       console.log('Count---render')
+       const {count} = this.state
+       return (
+         <div>
+           <h2>当前求和为：{count}</h2>
+           <button onClick={this.add}>点我+1</button>
+           <button onClick={this.unmount}>卸载组件</button>
+           <button onClick={this.force}>强制更新</button>         
+           </div>
+       )
+     }
+   }
+   
+   class A extends React.Component{
+     state = {carName:'benz'}
+
+     changeCar = () => {
+       this.setState({carName:'auto'})
+     }
+      render() {
+        return(
+        <div>
+          <div>我是A组件</div>
+          <button onClick={this.changeCar}>换车</button>
+          <B carName={this.state.carName}/>
+        </div>
+        )
+      }
+    }
+
+    class B extends React.Component{
+
+      componentDidMount() {
+        console.log('B---componentDidMount')
+      }
+      componentWillReceiveProps() {
+        console.log('B---componentWillReceiveProps')
+      }
+      render(){
+        return (
+          <div>我是B组件，接受到的车是：{this.props.carName}</div>
+        )
+      }
+    }
+   ReactDOM.render(<Count/>, document.getElementById('test1'))
+  </script>
+  A
+
+</body>
+
+</html>
