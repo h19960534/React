@@ -37,6 +37,8 @@
         return (
           <div>
             <h2>展示人员信息</h2>
+            <button onClick={this.add}>添加一个小王</button>
+            <h3>使用index作为key</h3>
             <ul>
               {
                 this.state.persons.map((personObj,index) => {
@@ -44,7 +46,17 @@
                 })
               }
             </ul>
+            <hr/>
+            <hr/>         
             <button onClick={this.add}>添加一个小王</button>
+            <h3>使用id作为key</h3>
+            <ul>
+              {
+                this.state.persons.map((personObj) => {
+                  return <li key={personObj.id}>{personObj.name}---{personObj.age}</li>
+                })
+              }
+            </ul>    
           </div>
                 )
       }
